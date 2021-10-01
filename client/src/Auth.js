@@ -1,9 +1,8 @@
 import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import BgImg from "./assets/images/bg-img.png";
-import Login from "./Login";
-import Signup from "./Signup";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+import LoginOrSignup from "./LoginOrSignup";
 const useInputStyles = makeStyles((theme) => ({
   bg: {
     backgroundImage: `linear-gradient(to bottom, rgba(58,141,255,0.85), rgba(134,185,255,0.85)),url(${BgImg})`,
@@ -49,8 +48,7 @@ const Auth = ({ authRoute }) => {
       </Grid>
       <Grid item md={7} sm={7} xs={12}>
         <Box className={classes.inputForm}>
-          {authRoute === "login" && <Login />}
-          {authRoute === "register" && <Signup />}
+          <LoginOrSignup authRoute={authRoute} />
         </Box>
       </Grid>
     </Grid>

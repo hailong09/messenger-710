@@ -4,8 +4,8 @@ import { SenderBubble, OtherUserBubble } from "../ActiveChat";
 import moment from "moment";
 
 const Messages = (props) => {
-  const { messages, otherUser, userId} = props;
-  console.log("MESSAGE NOT IN ORDER",messages)
+  const { messages, otherUser, userId } = props;
+
   return (
     <Box>
       {messages.map((message) => {
@@ -25,7 +25,5 @@ const Messages = (props) => {
     </Box>
   );
 };
-
-
 
 export default Messages;

@@ -73,7 +73,6 @@ export const fetchConversations = () => async (dispatch) => {
   try {
     let { data } = await axios.get("/api/conversations");
 
-    console.log("FECTH CONVERSATION", data);
     data = data.map((conversation) => {
       return {
         ...conversation,
@@ -111,7 +110,6 @@ export const postMessage = (body) => async (dispatch) => {
       dispatch(setNewMessage(data.message));
     }
     sendMessage(data, body);
-    dispatch(fetchConversations())
   } catch (error) {
     console.error(error);
   }
