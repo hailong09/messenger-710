@@ -11,6 +11,7 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 import { register } from "./store/utils/thunkCreators";
+import { CustomButton } from "./styled-components/CustomButton";
 
 const Login = (props) => {
   const history = useHistory();
@@ -38,15 +39,21 @@ const Login = (props) => {
 
   return (
     <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to log in?</Typography>
-          <Button onClick={() => history.push("/login")}>Login</Button>
+      <Box sx={{ width: "60%", margin: 20 }}>
+        <Grid container item alignItems="center" justifyContent="flex-end">
+          <Typography variant="caption">Already have an account?</Typography>
+          <CustomButton
+            variant="contained"
+            onClick={() => history.push("/login")}
+          >
+            Login
+          </CustomButton>
         </Grid>
         <form onSubmit={handleRegister}>
-          <Grid>
+          <Grid container direction="column" justify="center">
+          <Typography variant="h5">Create an account.</Typography>
             <Grid>
-              <FormControl>
+              <FormControl margin="normal" required fullWidth>
                 <TextField
                   aria-label="username"
                   label="Username"
@@ -57,7 +64,7 @@ const Login = (props) => {
               </FormControl>
             </Grid>
             <Grid>
-              <FormControl>
+              <FormControl margin="normal" required fullWidth>
                 <TextField
                   label="E-mail address"
                   aria-label="e-mail address"
@@ -68,7 +75,12 @@ const Login = (props) => {
               </FormControl>
             </Grid>
             <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
+              <FormControl
+                error={!!formErrorMessage.confirmPassword}
+                margin="normal"
+                required
+                fullWidth
+              >
                 <TextField
                   aria-label="password"
                   label="Password"
@@ -83,7 +95,12 @@ const Login = (props) => {
               </FormControl>
             </Grid>
             <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
+              <FormControl
+                error={!!formErrorMessage.confirmPassword}
+                margin="normal"
+                required
+                fullWidth
+              >
                 <TextField
                   label="Confirm Password"
                   aria-label="confirm password"
@@ -97,9 +114,17 @@ const Login = (props) => {
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Button type="submit" variant="contained" size="large">
-              Create
-            </Button>
+            <Grid container justify="center">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                style={{ fontFamily: "Montserrat" }}
+              >
+                Create
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Box>

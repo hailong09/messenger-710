@@ -24,6 +24,7 @@ const Input = (props) => {
 
   const handleChange = (event) => {
     setText(event.target.value);
+  
   };
 
   const handleSubmit = async (event) => {
@@ -35,6 +36,7 @@ const Input = (props) => {
       conversationId,
       sender: conversationId ? null : user
     };
+   
     await postMessage(reqBody);
     setText("");
   };

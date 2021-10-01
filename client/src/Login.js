@@ -10,7 +10,9 @@ import {
   TextField,
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
+import { CustomButton } from "./styled-components/CustomButton";
 
+// const
 const Login = (props) => {
   const history = useHistory();
   const { user, login } = props;
@@ -29,33 +31,49 @@ const Login = (props) => {
 
   return (
     <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
+      <Box sx={{ width: "60%", margin: 20 }}>
+        <Grid container item alignItems="center" justifyContent="flex-end">
+          <Typography variant="caption">Don't have an account?</Typography>
+
+          <CustomButton
+            variant="contained"
+            onClick={() => history.push("/register")}
+          >
+            Create account
+          </CustomButton>
         </Grid>
         <form onSubmit={handleLogin}>
-          <Grid>
+          <Grid container direction="column" justify="center">
+            <Typography variant="h5">Wecome Back!</Typography>
             <Grid>
-              <FormControl margin="normal" required>
+              <FormControl margin="normal" required fullWidth>
                 <TextField
                   aria-label="username"
                   label="Username"
                   name="username"
                   type="text"
+                  size="medium"
                 />
               </FormControl>
             </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
             <Grid>
-              <Button type="submit" variant="contained" size="large">
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  label="password"
+                  aria-label="password"
+                  type="password"
+                  name="password"
+                />
+              </FormControl>
+            </Grid>
+            <Grid container justify="center">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                style={{ fontFamily: "Montserrat" }}
+              >
                 Login
               </Button>
             </Grid>
