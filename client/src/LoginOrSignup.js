@@ -10,27 +10,35 @@ import {
   TextField,
   FormHelperText,
 } from "@material-ui/core";
-import { register } from "./store/utils/thunkCreators";
+import { login, register } from "./store/utils/thunkCreators";
 import { CustomButton } from "./styled-components/CustomButton";
-
-const Login = (props) => {
+const LoginOrSignup = (props) => {
   const history = useHistory();
-  const { user, register } = props;
+  const { user, register, login } = props;
   const [formErrorMessage, setFormErrorMessage] = useState({});
 
   const handleRegister = async (event) => {
     event.preventDefault();
     const username = event.target.username.value;
-    const email = event.target.email.value;
     const password = event.target.password.value;
-    const confirmPassword = event.target.confirmPassword.value;
+    const email =
+      (props.authRoute === "register" && event.target.email.value) || null;
+    const confirmPassword =
+      (props.authRoute === "register" && event.target.confirmPassword.value) ||
+      null;
 
-    if (password !== confirmPassword) {
+    if (
+      props.authRoute === "register" &&
+      confirmPassword &&
+      password !== confirmPassword
+    ) {
       setFormErrorMessage({ confirmPassword: "Passwords must match" });
       return;
     }
 
-    await register({ username, email, password });
+    props.authRoute === "register" &&
+      (await register({ username, email, password }));
+    props.authRoute === "login" && (await login({ username, password }));
   };
 
   if (user.id) {
@@ -41,17 +49,29 @@ const Login = (props) => {
     <Grid container justify="center">
       <Box sx={{ width: "60%", margin: 20 }}>
         <Grid container item alignItems="center" justifyContent="flex-end">
-          <Typography variant="caption">Already have an account?</Typography>
+          <Typography variant="caption">
+            {props.authRoute === "register"
+              ? "Already have an account?"
+              : "Don't have an account?"}
+          </Typography>
           <CustomButton
             variant="contained"
-            onClick={() => history.push("/login")}
+            onClick={() =>
+              history.push(
+                props.authRoute === "register" ? "/login" : "/register"
+              )
+            }
           >
-            Login
+            {props.authRoute === "register" ? "Login" : "Create account"}
           </CustomButton>
         </Grid>
         <form onSubmit={handleRegister}>
           <Grid container direction="column" justify="center">
-          <Typography variant="h5">Create an account.</Typography>
+            <Typography variant="h5">
+              {props.authRoute === "register"
+                ? "Create an account."
+                : "Wecome Back!"}
+            </Typography>
             <Grid>
               <FormControl margin="normal" required fullWidth>
                 <TextField
@@ -63,17 +83,19 @@ const Login = (props) => {
                 />
               </FormControl>
             </Grid>
-            <Grid>
-              <FormControl margin="normal" required fullWidth>
-                <TextField
-                  label="E-mail address"
-                  aria-label="e-mail address"
-                  type="email"
-                  name="email"
-                  required
-                />
-              </FormControl>
-            </Grid>
+            {props.authRoute === "register" && (
+              <Grid>
+                <FormControl margin="normal" required fullWidth>
+                  <TextField
+                    label="E-mail address"
+                    aria-label="e-mail address"
+                    type="email"
+                    name="email"
+                    required
+                  />
+                </FormControl>
+              </Grid>
+            )}
             <Grid>
               <FormControl
                 error={!!formErrorMessage.confirmPassword}
@@ -94,26 +116,28 @@ const Login = (props) => {
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid>
-              <FormControl
-                error={!!formErrorMessage.confirmPassword}
-                margin="normal"
-                required
-                fullWidth
-              >
-                <TextField
-                  label="Confirm Password"
-                  aria-label="confirm password"
-                  type="password"
-                  inputProps={{ minLength: 6 }}
-                  name="confirmPassword"
+            {props.authRoute === "register" && (
+              <Grid>
+                <FormControl
+                  error={!!formErrorMessage.confirmPassword}
+                  margin="normal"
                   required
-                />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
+                  fullWidth
+                >
+                  <TextField
+                    label="Confirm Password"
+                    aria-label="confirm password"
+                    type="password"
+                    inputProps={{ minLength: 6 }}
+                    name="confirmPassword"
+                    required
+                  />
+                  <FormHelperText>
+                    {formErrorMessage.confirmPassword}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+            )}
             <Grid container justify="center">
               <Button
                 type="submit"
@@ -122,7 +146,7 @@ const Login = (props) => {
                 size="large"
                 style={{ fontFamily: "Montserrat" }}
               >
-                Create
+                {props.authRoute === "register" ? "Create" : "Login"}
               </Button>
             </Grid>
           </Grid>
@@ -143,7 +167,10 @@ const mapDispatchToProps = (dispatch) => {
     register: (credentials) => {
       dispatch(register(credentials));
     },
+    login: (credentials) => {
+      dispatch(login(credentials));
+    },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginOrSignup);

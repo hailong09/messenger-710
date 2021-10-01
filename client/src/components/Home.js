@@ -26,7 +26,7 @@ const Home = (props) => {
   }, [user.id]);
 
   useEffect(() => {
-    fetchConversations();
+     fetchConversations();
   }, [fetchConversations]);
 
   if (!user.id) {
