@@ -15,6 +15,10 @@ const useInputStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  inputForm: {
+    width: "100%",
+    maxWidth: "100%",
+  },
   icon: {
     fontSize: "100px",
   },
@@ -43,7 +47,9 @@ const Auth = ({ authRoute }) => {
         </div>
       </Grid>
       <Grid item md={7} sm={7} xs={12}>
-        <LoginOrSignup authRoute={authRoute} />
+        <Box className={classes.inputForm}>
+          <LoginOrSignup authRoute={authRoute} />
+        </Box>
       </Grid>
     </Grid>
   );
