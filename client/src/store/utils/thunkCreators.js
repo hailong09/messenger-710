@@ -73,6 +73,7 @@ export const fetchConversations = () => async (dispatch) => {
   try {
     let { data } = await axios.get("/api/conversations");
 
+    console.log("FECTH CONVERSATION", data);
     data = data.map((conversation) => {
       return {
         ...conversation,
@@ -107,7 +108,7 @@ export const postMessage = (body) => async (dispatch) => {
     if (!body.conversationId) {
       dispatch(addConversation(body.recipientId, data.message));
     } else {
-      dispatch(setNewMessage(data.message));
+      dispatch(setNewMessage(data.message, data.sender));
     }
     sendMessage(data, body);
   } catch (error) {

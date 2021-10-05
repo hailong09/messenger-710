@@ -3,7 +3,8 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchUser } from "./store/utils/thunkCreators";
 import { Home, SnackbarError } from "./components";
-import Auth from "./Auth";
+import Login from "./Login";
+import Signup from "./Signup";
 
 const Routes = (props) => {
   const { user, fetchUser } = props;
@@ -40,20 +41,12 @@ const Routes = (props) => {
         />
       )}
       <Switch>
-        <Route
-          path="/login"
-          render={(props) => <Auth {...props} authRoute="login" />}
-        />
-        <Route
-          path="/register"
-          render={(props) => <Auth {...props} authRoute="register" />}
-        />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Signup} />
         <Route
           exact
           path="/"
-          render={(props) =>
-            props.user?.id ? <Home /> : <Auth authRoute="register" />
-          }
+          render={(props) => (props.user?.id ? <Home /> : <Signup />)}
         />
         <Route path="/home" component={Home} />
       </Switch>

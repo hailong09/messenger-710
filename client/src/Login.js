@@ -10,7 +10,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
-import { CustomButton } from "./styled-components/CustomButton";
 
 // const
 const Login = (props) => {
@@ -31,22 +30,19 @@ const Login = (props) => {
 
   return (
     <Grid container justify="center">
-      <Box sx={{ width: "60%", margin: 20 }}>
+      <Box>
         <Grid container item alignItems="center" justifyContent="flex-end">
           <Typography variant="caption">Don't have an account?</Typography>
 
-          <CustomButton
-            variant="contained"
-            onClick={() => history.push("/register")}
-          >
+          <Button onClick={() => history.push("/register")}>
             Create account
-          </CustomButton>
+          </Button>
         </Grid>
         <form onSubmit={handleLogin}>
           <Grid container direction="column" justify="center">
             <Typography variant="h5">Wecome Back!</Typography>
             <Grid>
-              <FormControl margin="normal" required fullWidth>
+              <FormControl margin="normal" required>
                 <TextField
                   aria-label="username"
                   label="Username"
@@ -57,7 +53,7 @@ const Login = (props) => {
               </FormControl>
             </Grid>
             <Grid>
-              <FormControl margin="normal" required fullWidth>
+              <FormControl margin="normal" required>
                 <TextField
                   label="password"
                   aria-label="password"
@@ -66,16 +62,8 @@ const Login = (props) => {
                 />
               </FormControl>
             </Grid>
-            <Grid container justify="center">
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                size="large"
-                style={{ fontFamily: "Montserrat" }}
-              >
-                Login
-              </Button>
+            <Grid container>
+              <Button type="submit">Login</Button>
             </Grid>
           </Grid>
         </form>
