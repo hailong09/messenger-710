@@ -1,9 +1,15 @@
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  createTheme,
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
 import React from "react";
 import BgImg from "./assets/images/bg-img.png";
-import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import LoginOrSignup from "./LoginOrSignup";
-
+import { ReactComponent as BubbleIcon } from "./assets/images/bubble.svg";
 const useInputStyles = makeStyles((theme) => ({
   bg: {
     backgroundImage: `linear-gradient(to bottom, rgba(58,141,255,0.85), rgba(134,185,255,0.85)),url(${BgImg})`,
@@ -31,23 +37,43 @@ const useInputStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  gridBox: {
+    "@media (max-width:580px)": {
+      display: "none",
+    },
+  },
 }));
+const theme = createTheme();
 
+theme.typography.h4 = {
+  fontSize: "1.5rem",
+  "@media (min-width:600px)": {
+    fontSize: "1.5rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "1.8rem",
+  },
+};
 const Auth = ({ authRoute }) => {
   const classes = useInputStyles();
   return (
     <Grid container>
-      <Grid item md={5} sm={5}>
-        <div className={classes.bg}>
+      <Grid md={5} sm={5} className={classes.gridBox}>
+        <Box className={classes.bg}>
           <Box className={classes.box}>
-            <WhatsAppIcon className={classes.icon} />
-            <Typography align="center" variant="h4">
-              Converse with anyone with any language
-            </Typography>
+            <BubbleIcon className={classes.icon} />
+
+            <Box sx={{ margin: "20px", padding: "30px" }}>
+              <ThemeProvider theme={theme}>
+                <Typography align="center" variant="h4">
+                  Converse with anyone with any language
+                </Typography>
+              </ThemeProvider>
+            </Box>
           </Box>
-        </div>
+        </Box>
       </Grid>
-      <Grid item md={7} sm={7} xs={12}>
+      <Grid container md={7} sm={7} xs={12}>
         <Box className={classes.inputForm}>
           <LoginOrSignup authRoute={authRoute} />
         </Box>

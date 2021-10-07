@@ -9,10 +9,23 @@ import {
   FormControl,
   TextField,
   FormHelperText,
+  makeStyles,
 } from "@material-ui/core";
 import { login, register } from "./store/utils/thunkCreators";
 import { CustomButton } from "./styled-components/CustomButton";
+
+const useStyles = makeStyles((theme) => ({
+  boxInputForm: {
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "80px",
+    },
+
+    marginTop: "150px",
+  },
+}));
+
 const LoginOrSignup = (props) => {
+  const classes = useStyles();
   const history = useHistory();
   const { user, register, login } = props;
   const [formErrorMessage, setFormErrorMessage] = useState({});
@@ -46,7 +59,7 @@ const LoginOrSignup = (props) => {
   }
 
   return (
-    <Grid container justify="center">
+    <Grid container alignItems="center" justifyContent="center">
       <Box sx={{ width: "60%", margin: 20 }}>
         <Grid container item alignItems="center" justifyContent="flex-end">
           <Typography variant="caption">
@@ -65,58 +78,38 @@ const LoginOrSignup = (props) => {
             {props.authRoute === "register" ? "Login" : "Create account"}
           </CustomButton>
         </Grid>
-        <form onSubmit={handleRegister}>
-          <Grid container direction="column" justify="center">
-            <Typography variant="h5">
-              {props.authRoute === "register"
-                ? "Create an account."
-                : "Wecome Back!"}
-            </Typography>
-            <Grid>
-              <FormControl margin="normal" required fullWidth>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                  required
-                />
-              </FormControl>
-            </Grid>
-            {props.authRoute === "register" && (
+        <Box className={classes.boxInputForm}>
+          <form onSubmit={handleRegister}>
+            <Grid container direction="column" justify="center">
+              <Typography variant="h5">
+                {props.authRoute === "register"
+                  ? "Create an account."
+                  : "Wecome Back!"}
+              </Typography>
               <Grid>
                 <FormControl margin="normal" required fullWidth>
                   <TextField
-                    label="E-mail address"
-                    aria-label="e-mail address"
-                    type="email"
-                    name="email"
+                    aria-label="username"
+                    label="Username"
+                    name="username"
+                    type="text"
                     required
                   />
                 </FormControl>
               </Grid>
-            )}
-            <Grid>
-              <FormControl
-                error={!!formErrorMessage.confirmPassword}
-                margin="normal"
-                required
-                fullWidth
-              >
-                <TextField
-                  aria-label="password"
-                  label="Password"
-                  type="password"
-                  inputProps={{ minLength: 6 }}
-                  name="password"
-                  required
-                />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            {props.authRoute === "register" && (
+              {props.authRoute === "register" && (
+                <Grid>
+                  <FormControl margin="normal" required fullWidth>
+                    <TextField
+                      label="E-mail address"
+                      aria-label="e-mail address"
+                      type="email"
+                      name="email"
+                      required
+                    />
+                  </FormControl>
+                </Grid>
+              )}
               <Grid>
                 <FormControl
                   error={!!formErrorMessage.confirmPassword}
@@ -125,11 +118,11 @@ const LoginOrSignup = (props) => {
                   fullWidth
                 >
                   <TextField
-                    label="Confirm Password"
-                    aria-label="confirm password"
+                    aria-label="password"
+                    label="Password"
                     type="password"
                     inputProps={{ minLength: 6 }}
-                    name="confirmPassword"
+                    name="password"
                     required
                   />
                   <FormHelperText>
@@ -137,20 +130,42 @@ const LoginOrSignup = (props) => {
                   </FormHelperText>
                 </FormControl>
               </Grid>
-            )}
-            <Grid container justify="center">
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                size="large"
-                style={{ fontFamily: "Montserrat" }}
-              >
-                {props.authRoute === "register" ? "Create" : "Login"}
-              </Button>
+              {props.authRoute === "register" && (
+                <Grid>
+                  <FormControl
+                    error={!!formErrorMessage.confirmPassword}
+                    margin="normal"
+                    required
+                    fullWidth
+                  >
+                    <TextField
+                      label="Confirm Password"
+                      aria-label="confirm password"
+                      type="password"
+                      inputProps={{ minLength: 6 }}
+                      name="confirmPassword"
+                      required
+                    />
+                    <FormHelperText>
+                      {formErrorMessage.confirmPassword}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+              )}
+              <Grid container justify="center">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  style={{ fontFamily: "Montserrat" }}
+                >
+                  {props.authRoute === "register" ? "Create" : "Login"}
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Box>
       </Box>
     </Grid>
   );
