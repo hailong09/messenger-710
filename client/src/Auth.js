@@ -58,7 +58,7 @@ const Auth = ({ authRoute }) => {
   const classes = useInputStyles();
   return (
     <Grid container>
-      <Grid md={5} sm={5} className={classes.gridBox}>
+      <Grid item md={5} sm={5} className={classes.gridBox}>
         <Box className={classes.bg}>
           <Box className={classes.box}>
             <BubbleIcon className={classes.icon} />
