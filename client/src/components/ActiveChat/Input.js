@@ -3,8 +3,9 @@ import { FormControl, FilledInput, IconButton, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { postMessage } from "../../store/utils/thunkCreators";
-import { PhotoCamera, Delete } from "@material-ui/icons";
+import { Delete } from "@material-ui/icons";
 import { styled } from "@material-ui/styles";
+import {ContentCopyOutlined} from "@mui/icons-material"
 import {
   ref,
   getDownloadURL,
@@ -159,12 +160,8 @@ const Input = (props) => {
                 multiple
                 onChange={handleUploadChange}
               />
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-              >
-                <PhotoCamera />
+              <IconButton aria-label="upload picture" component="span">
+                <ContentCopyOutlined />
               </IconButton>
             </label>
           </Box>
