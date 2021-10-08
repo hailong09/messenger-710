@@ -56,7 +56,7 @@ const OtherUserBubble = (props) => {
                       width: `calc(167px/${images.length})`,
                       height: `calc(167px/${images.length})`,
                       minWidth: `calc(167px/3)`,
-                      minHeight: `calc(167px/3)`,
+                      minHeight: `calc(16P7px/3)`,
                       borderRadius: "10px 10px 0px 10px",
                     }}
                     alt={image}

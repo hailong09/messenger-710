@@ -46,16 +46,10 @@ const Input = (props) => {
   const [text, setText] = useState("");
   const { postMessage, otherUser, conversationId, user } = props;
   const [filesAsUrl, setFileASURL] = useState([]);
-  const handleDeleteImage = (img) => {
+  const handleDeleteImage = async (img) => {
     const imageRef = ref(storage, `images/${img.name}`);
 
-    deleteObject(imageRef)
-      .then(() => {
-        console.log("deleted successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await deleteObject(imageRef);
 
     const newImagesList = filesAsUrl.filter((file) => file.url !== img.url);
     setFileASURL([...newImagesList]);
@@ -67,26 +61,23 @@ const Input = (props) => {
 
   const handleUploadChange = (event) => {
     const newImages = [...event.target.files];
-    newImages.forEach((img) => {
+    const imgURlpromises = newImages.map((img) => {
       const storageRef = ref(storage, `images/${img.name}`);
-      uploadBytes(storageRef, img)
-        .then((snapshot) => {
-          const url = getDownloadURL(snapshot.ref)
-            .then((url) => {
-              return url;
-            })
-            .catch((err) => err);
-          return url;
-        })
-        .then((url) => {
-          setFileASURL((prev) => [...prev, { url, name: img.name }]);
-          return;
-        })
-        .catch((err) => {
-          console.log(err);
-          return;
-        });
+      let imgPromise = uploadBytes(storageRef, img).then((snapshot) => {
+        const url = getDownloadURL(snapshot.ref)
+          .then((url) => {
+            return { url, name: img.name };
+          })
+          .catch((err) => err);
+        return url;
+      });
+
+      return imgPromise;
     });
+
+    Promise.all(imgURlpromises).then((urls) =>
+      setFileASURL((prev) => [...prev, ...urls])
+    );
   };
 
   const handleSubmit = async (event) => {
@@ -159,7 +150,7 @@ const Input = (props) => {
             name="text"
             onChange={handleChange}
           />
-          <div className={classes.upLoadBtn}>
+          <Box className={classes.upLoadBtn}>
             <label htmlFor="icon-button-file">
               <UploadInput
                 accept="image/*"
@@ -176,7 +167,7 @@ const Input = (props) => {
                 <PhotoCamera />
               </IconButton>
             </label>
-          </div>
+          </Box>
         </FormControl>
       </form>
     </Box>

@@ -24,6 +24,11 @@ const useStyles = makeStyles(() => ({
     background: "#F4F6FA",
     borderRadius: "10px 10px 0 10px",
   },
+  bubbleSingleImage: {
+    background: "#F4F6FA",
+    borderRadius: "0 0 10px 10p ",
+    width: "167px",
+  },
 }));
 
 const SenderBubble = (props) => {
@@ -33,30 +38,58 @@ const SenderBubble = (props) => {
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
       {images && (
-        <Box sx={{ maxWidth: 167 }}>
+        <Box sx={{ maxWidth: 300 }}>
           <Grid container spacing={1}>
-            {images.map((image) => (
-              <Grid item xs={images.length > 2 ? 4 : 6} key={image}>
+            {images.length === 1 && (
+              <Grid item xs={images.length > 2 ? 4 : 6} key={images[0]}>
                 <Box
                   component="img"
                   sx={{
-                    width: `calc(167px/${images.length})`,
-                    height: `calc(167px/${images.length})`,
-                    minWidth: `calc(167px/3)`,
-                    minHeight: `calc(167px/3)`,
-                    borderRadius: "10px 10px 0px 10px",
+                    width: `calc(167px)`,
+                    height: `calc(167px)`,
+                    borderRadius: "10px 10px 0px 0px",
                   }}
-                  alt={image}
-                  src={image}
+                  alt={images[0]}
+                  src={images[0]}
                 />
               </Grid>
-            ))}
+            )}
+            {images.length > 1 &&
+              images.map((image) => (
+                <Grid item xs={images.length > 2 ? 4 : 6} key={image}>
+                  <Box
+                    component="img"
+                    sx={{
+                      width: `calc(300px/${images.length})`,
+                      height: `calc(300px/${images.length})`,
+                      maxWidth: `calc(300px/3)`,
+                      maxHeight: `calc(300px/3)`,
+                      borderRadius: "10px 10px 0px 10px",
+                    }}
+                    alt={image}
+                    src={image}
+                  />
+                </Grid>
+              ))}
           </Grid>
         </Box>
       )}
-      <Box className={classes.bubble}>
-        <Typography className={classes.text}>{text}</Typography>
-      </Box>
+      {text && (
+        <Box
+          className={
+            images && images.length === 1
+              ? classes.bubbleSingleImage
+              : classes.bubble
+          }
+        >
+          <Typography
+            className={classes.text}
+            align={images && images.length === 1 ? "center" : "inherit"}
+          >
+            {text}
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };
